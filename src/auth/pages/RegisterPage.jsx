@@ -1,20 +1,46 @@
+import { useDispatch, useSelector } from 'react-redux';
 import { Link as RouterLink } from 'react-router-dom';
-import { Button, Grid, Link, TextField, Typography } from '@mui/material';
-import { Google } from '@mui/icons-material';
+
+import { Alert, Button, Grid, Link, TextField, Typography } from '@mui/material';
+import CheckIcon from '@mui/icons-material/Check';
+
 import { AuthLayout } from '../layout/AuthLayout';
+
+import { useForm } from '../../hooks/useForm';
+
+import { checkingEmailPasswordSignIn } from '../../store/thunks';
+import { useMemo } from 'react';
 
 
 export const RegisterPage = () => {
+
+  const dispatch = useDispatch();
+
+  const { onInputChange, onResetForm, email, password, displayName, formState } = useForm({ email: '', password: '', displayName: '' });
+
+  const { status, errorMessage } = useSelector(state => state.auth)
+  
+  const isCheckingStatus = useMemo(() => status === 'checking' , [status])
+
+  const onSubmit = (event) => { 
+    event.preventDefault();
+    console.log(formState)
+    dispatch(checkingEmailPasswordSignIn(formState))
+
+  }
   return (
     <AuthLayout title="Crear cuenta">
-      <form>
+      <form onSubmit={ onSubmit }>
           <Grid container>
            
             <Grid item xs={ 12 } sx={{ mt: 2 }}>
               <TextField 
                 label="Nombre completo" 
                 type="text" 
+                name='displayName'
                 placeholder='Nombre completo' 
+                value={ displayName }
+                onChange={ onInputChange }
                 fullWidth
               />
             </Grid>
@@ -23,7 +49,10 @@ export const RegisterPage = () => {
               <TextField 
                 label="Correo" 
                 type="email" 
+                name='email'
                 placeholder='correo@google.com' 
+                value={ email }
+                onChange={ onInputChange }
                 fullWidth
               />
             </Grid>
@@ -32,14 +61,26 @@ export const RegisterPage = () => {
               <TextField 
                 label="Contraseña" 
                 type="password" 
+                name='password'
                 placeholder='Contraseña' 
+                value={ password }
+                onChange={ onInputChange }
                 fullWidth
               />
-            </Grid>
-            
+          </Grid>
+          {
+            errorMessage &&
+            <>
+              <Grid item mt={2} xs={12} display={!!errorMessage ? '' : 'none'}>
+                <Alert  severity="error">
+                  {errorMessage}
+                </Alert>
+              </Grid>
+            </>
+          }
             <Grid container spacing={ 2 } sx={{ mb: 2, mt: 1 }}>
               <Grid item xs={ 12 }>
-                <Button variant='contained' fullWidth>
+                <Button disabled={ isCheckingStatus } type='submit' variant='contained' fullWidth>
                   Crear cuenta
                 </Button>
               </Grid>
