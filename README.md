@@ -1,4 +1,4 @@
-# JournalApp
+# MyJournalApp
 
 MyJournalApp es una aplicación moderna de notas que permite a los usuarios registrarse, iniciar sesión y gestionar sus notas personales de manera sencilla. La aplicación está desarrollada con React + Vite, utiliza Redux Toolkit para el manejo del estado global, Firebase para la autenticación y Firestore Database como base de datos. Las imágenes asociadas a las notas se almacenan en Cloudinary.
 
