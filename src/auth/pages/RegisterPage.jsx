@@ -8,7 +8,7 @@ import { AuthLayout } from '../layout/AuthLayout';
 
 import { useForm } from '../../hooks/useForm';
 
-import { checkingEmailPasswordSignIn } from '../../store/thunks';
+import { checkingEmailPasswordSignIn } from '../../store/auth/thunks';
 import { useMemo } from 'react';
 
 
@@ -16,7 +16,9 @@ export const RegisterPage = () => {
 
   const dispatch = useDispatch();
 
-  const { onInputChange, onResetForm, email, password, displayName, formState } = useForm({ email: '', password: '', displayName: '' });
+  const formData = { email: '', password: '', displayName: '' }
+
+  const { onInputChange, email, password, displayName, formState } = useForm(formData);
 
   const { status, errorMessage } = useSelector(state => state.auth)
   
@@ -24,7 +26,6 @@ export const RegisterPage = () => {
 
   const onSubmit = (event) => { 
     event.preventDefault();
-    console.log(formState)
     dispatch(checkingEmailPasswordSignIn(formState))
 
   }
