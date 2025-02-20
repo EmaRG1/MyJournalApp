@@ -11,12 +11,13 @@ import { useForm } from '../../hooks/useForm';
 import { checkingEmailPasswordSignIn } from '../../store/auth/thunks';
 import { useMemo } from 'react';
 
+const formData = { email: '', password: '', displayName: '' }
 
 export const RegisterPage = () => {
 
   const dispatch = useDispatch();
 
-  const formData = { email: '', password: '', displayName: '' }
+ 
 
   const { onInputChange, email, password, displayName, formState } = useForm(formData);
 
